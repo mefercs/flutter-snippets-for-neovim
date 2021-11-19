@@ -1,0 +1,345 @@
+# A valid snippet should starts with:
+#
+#		snippet trigger_word [ "description" [ options ] ]
+#
+# and end with:
+#
+#		endsnippet
+#
+# Snippet options:
+#
+#		b - Beginning of line.
+#		i - In-word expansion.
+#		w - Word boundary.
+#		r - Regular expression
+#		e - Custom context snippet
+#		A - Snippet will be triggered automatically, when condition matches.
+#
+# Basic example:
+#
+#		snippet emitter "emitter properties" b
+#		private readonly ${1} = new Emitter<$2>()
+#		public readonly ${1/^_(.*)/$1/}: Event<$2> = this.$1.event
+#		endsnippet
+#
+# Online reference: https://github.com/SirVer/ultisnips/blob/master/doc/UltiSnips.txt
+global !p
+from dartlang_snippets import ensure_import
+endglobal
+
+snippet stlss "Create stateless widget" b
+class ${1:name} extends StatelessWidget {
+	const ${1:name}({Key? key}) : super(key: key); 
+
+	@override
+	Widget build(BuildContext context){
+		return Container();
+	}
+}
+endsnippet
+
+snippet stful "Create a stateful widget" b
+class ${1:name} extends StatefulWidget {	
+	${1:name}({Key? key}) : super (Key : key);
+	
+	@override
+	_${1:WidgetName}State createState() => _${1:WidgetName}State();
+}
+
+class _${1:index}State extends State<${1:index}>{
+	@override 
+	Widget build(BuildContext context){
+		return Container();
+	}
+}
+endsnippet
+
+snippet build "part of the ui represented by this widget" b
+@override
+Widget build(BuildContext context){
+	return ${0:};
+}
+
+endsnippet
+
+snippet customPainter "Used for creating custom paint" b
+class ${0:name}Painter extends CustomPainter {
+	@override 
+	void paint(Canvas canvas, Size size){
+	}
+	@override 
+	bool shouldRepaint(${0:name}Painter oldDelegate) => false;
+	@override
+	bool shouldRebuildSemantics(${0:name})=>false;
+}
+endsnippet
+
+snippet customClipper "Used for creating custom shapes" b
+class ${0:name}Clippes extends CustomClipper<Path> {
+	@override 
+	Path getClip(Size size){
+	}
+	@override 
+	bool shouldReclip(CustomClipper<Path> oldClipper)=> false;
+}
+endsnippet
+
+snippet initS "Called when this object is inserted into the tree. The framework will call this method exacly once for each State object it creates" b
+@override
+void initState(){
+	super.initState();
+	${0:}
+}
+endsnippet
+
+snippet dis "Called when this object is removed from the tree permanently. The framework calls this method when this State objec will never build again." b
+@override
+void dispose(){
+	${0:}
+	super.dispose();
+}
+endsnippet
+
+snippet reassemble "Called whenever the application is reassembled during debbugin, for example during hot reload" b
+@override 
+void reasssemble(){	
+	super.reassemble();
+	${0:}
+}
+endsnippet
+
+snippet didChangeD "Caleed when a dependency of this State object changes" b
+@override 
+void didChangeDependencies(){
+	super.didChangeDependencies();
+	${0:}
+}
+endsnippet
+
+snippet didUpdateW "Called whenever the widget configuration changes" b
+@override 
+void didUpdateWidget(${1:Type} ${2:oldWidget}){
+	super.didUpdateWidge(${2:oldWidget});
+	${0:}
+}
+endsnippet
+
+snippet listViewB "Create a scrollable linear array of widgets" b
+ListView.builder(
+	itemCount: {1:1},
+	itemBuilder: (BuildContext context, int index){
+		return ${2:};
+	},
+),
+endsnippet
+
+snippet listViewS "Creates a fixed-length scrollable linear array of list items separeted by separators items" b
+ListView.separated(
+	itemCount: ${1:1},
+	separatorBuilder: (BuildContext context, int index){
+		return ${2:};
+	},
+	itemBuilder: (BuildContext context, int index){
+		return ${3:};
+	},
+),
+endsnippet
+
+snippet gridView "Creates a scrollable, 2D array of widgets that are created on demand." b
+GridView.builder(
+	gridDelegate: const SilverGridDelegateWithFixedCrossAxisCount(
+		crossAxisCount: ${1:2},
+	),
+	itemCount: ${2:2},
+	itemBuilder: (BuildContext context, int index){
+		return ${3:};
+	},
+),
+endsnippet
+
+snippet gridViewC "Creates a scrollable 2D array with fixed number of tiles in the cross axis" b
+GridView.count(
+	crossAxisSpacing: ${1:1},
+	mainAxisAlignment: ${2:2},
+	crossAxisAlignment: ${3:2},
+	children: <Widget>[
+		${4:}
+	],
+),
+endsnippet
+snippet gridViewE "Creates a scrollable, 2D array of widgets with tiles that each have a maximem cross-axit extent." b
+GridView.extent(
+	maxCrossAxisExtent: ${1:2},
+	children: <Widget>[
+		${2:},
+	],
+),
+endsnippet
+snippet customScrollV "Craetes a ScrollView that creates custom scroll, effects using slivers. If the primary argument is true, the controller must be null." b
+CustomScrollView(
+	slivers: <Widget> [
+		${0:}
+	],
+),
+endsnippet
+snippet streamBldr "Description" b
+StreamBuilder(
+	stream: ${1:stream},
+	initialData: ${2:initialData},
+	builder: (BuildContext context, AsyncSnapshot snapshot){
+		return Container(
+			child: ${3:child},
+		);
+	},
+),
+endsnippet
+snippet animatedBldr "Creates an Animated builder. The widget specified to child is passed to the builder" b
+AnimatedBuilder(
+	animation: ${1:animation},
+	child: ${2:child},
+	builder: (BuildContext context){
+		return ${3:};
+	},
+),
+endsnippet
+snippet stateBldr "Creates a widget that both has state and delegates its build to a callback. Useful for rebuilding specific sections of the widget tree" b
+StatefulBuilder(
+	builder: (BuildContext context, setState){
+		return ${0:};
+	},
+),
+endsnippet
+snippet orientationBldr "Creates a builder which allows for the orientation of the device to be specified and referencend" b
+OrientationBuilder(
+	builder: (BuildContext context, Orientation orientation){
+		return Container(
+			child: ${3:child},
+		);
+	},
+),
+endsnippet
+snippet layoutBldr "Similar to the builder widget except that the framework calls the builder function at layout time and provides the parent widget's constrains" b
+LayoutBuilder(
+	builder: (BuildContext context, BoxConstrains constrains){
+		return ${0:};
+	},
+),
+endsnippet
+snippet singleChildS "Creates a scroll view with a single child" b
+SingleChildScrollView(
+	controller: ${1:controller},
+	child: Colum(
+		${0:},
+	),
+),
+endsnippet
+snippet futureBldr "Creates a future builder. This builts itself based on the latest snapshot of interaction with a Future" b
+FutureBuilder(
+	future: ${1:future},
+	initialData: ${2:initialData},
+	builder:(BuildContext context, AsyncSnapshot snapshot){
+		return ${3:};
+	},
+),
+endsnippet
+snippet nosm "This method is invoked when a non-existent menthod or property is accessed" b
+@override
+dynamic noSuchMethod (Invocation invocation){
+	${1:},
+}
+endsnippet
+snippet inheritedW "Class used to propagate information down the widget tree" b
+class ${1:name} extends InheritedWidget {
+	${1:name}({Key? key, required this.child}) : super(key:key, child:child);
+	
+	final Widget child;
+
+	static ${1:name}? of(BuildContext context){
+		return context.dependOnInheritedWidgetOfExactType<${1:name}>();
+	}
+}
+@override
+bool updateShouldNotify(${1:Name} oldWidget){
+	return ${2:true};
+}
+endsnippet
+snippet mounted "Wheter this state object is currently in a tree" b
+@override
+bool get mounted{
+	${0:}
+}
+endsnippet
+snippet snk "A sink is the input of a stream" b
+Sink<${1:type}> get ${2:name} => _${2:name}Controller.sink;
+final _${2:name}Controller =  StreamController<${1:type}>(); 
+endsnippet
+snippet stm "A source of asynchronous dada events. A stream can be any data type <T>" b
+Stream<${1:type}> get ${2:name} => _${2:name}Controller.stream;
+final _${2:name}Controller = StreamController<${1:type}>();
+endsnippet
+snippet subj "A behaviorSubject is also a broadcast StreamContoller which returns an observable rather than a Stream" b
+Stream<${1:type}> get ${2:name} => _${2:name}Subject.stream;
+final _${2:name}Subject = BehaviorSubjec<${1:type}>;
+endsnippet
+snippet toStr "Returnr a string representation of this object." b
+@override 
+String toString(){
+	return ${1:toString};
+}
+endsnippet
+snippet debugP "Prints a message to the console, which you can access using the flutter tool's logs commnad" b
+debugPrint(${1:statement});
+endsnippet
+snippet importDefault "Import a default flutter import" b
+import '${1:}';
+endsnippet
+snippet mateapp "A default Material App template" b
+import 'package:flutter/material.dart';
+
+void main() => runApp(MaterialApp(
+		title: ${1:Title},
+		home: ${2:Home},
+		theme: ThemeData(),
+	)
+);
+endsnippet
+snippet cupeapp "Crater a default Cuppertino app template" b
+import 'package:flutter/cupertino.dart';
+
+void main()=> runApp(CupertinoApp(
+		title: ${1:title},
+		home: CupertinoScaffold(
+			${2:},
+		),
+	)
+);
+endsnippet
+snippet tweenAnimationBuilder "Widget builder that animeates a property of a widget to a target value whenecer the target value changes" b
+TweenAnimationBuilder(
+	duration: ${1:const Duration(),},
+	tween: ${2:Tween(),},
+	builder: (BuildContext context, ${3:dynamic} value, Widget? child){
+		return ${4:Container();};
+	},
+),
+endsnippet
+snippet valueListenableBuilder "The text is exceeded" b
+ValueListenableBuilder(
+	valueListenable: ${1: null},
+	builder:(BuildContext context, ${2:dynamic} value, Widget? child){
+		return ${3:Container};
+	},
+),
+endsnippet
+snippet f-test "Create a test function" b
+test(
+	\ ${1:test description} \
+	(){},
+);
+endsnippet
+snippet widgetTest "Create a testWidget function haha" b
+testWidget(
+	\ ${1: test description} \
+	(WidgetTester tester) async {},
+);
+endsnippet
